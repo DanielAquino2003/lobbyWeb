@@ -1,0 +1,12 @@
+- Usuarios: 
+- Tasks: Fecha, Hora titulo, String descripcion, tipos{Deporte, Universidad, Trabajo, Personal}, status{TODO, DOING, DONE}, puntosDeExperiencia
+- Task_deporte: Lista de ejercicios
+	- Ejercicios: Nombre, Series
+		- Series: Repeticiones, Peso
+- Task_universidad: Asignatura, tipo, 
+	- tipo: practica, examen, ejercicio, presentacion
+	- asignaturas: Lista de asignaturas
+		- Asignatura: Nombre, creditos, dificultad.
+- Task_trabajo: TODO
+- Task_personal: TODO
+: 
