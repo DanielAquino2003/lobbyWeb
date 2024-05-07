@@ -23,7 +23,7 @@ import LoginButton from './components/LoginButton.vue'
   <header>
     <img class="logo" src="@/assets/man_person_14407.png" alt="Logo Lobby" width="125" height="125">
     <div class="wrapper">
-      <HelloWorld msg="Bienvenido a lobby!" />
+      <HelloWorld msg="Welcome to Lobby!" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
