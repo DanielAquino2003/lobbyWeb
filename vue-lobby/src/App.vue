@@ -27,7 +27,7 @@ import LoginButton from './components/LoginButton.vue'
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/tasks">Tasks</RouterLink>
+        <RouterLink to="/Tasks">Tasks</RouterLink>
       </nav>
 
     </div>

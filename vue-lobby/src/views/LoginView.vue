@@ -57,16 +57,6 @@ export default {
           console.error('Error al realizar la solicitud POST:', error);
         });
     }
-  },
-  created() {
-    axios.get("http://127.0.0.1:8000/api/mytokenlogin/")
-      .then((response) => {
-        this.result = response.data;
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error('Error al realizar la solicitud GET:', error);
-      });
   }
 };
 </script>

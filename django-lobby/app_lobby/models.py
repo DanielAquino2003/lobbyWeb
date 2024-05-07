@@ -55,16 +55,20 @@ class Task(models.Model):
     fecha = models.DateField(max_length=8, blank=False, null=True)
     hora = models.TimeField(max_length=8, blank=False, null=True)
     puntosDeExperiencia = models.IntegerField(default=0)
-
+    location = models.CharField(max_length=100, blank=True, null=True)
     acompanantes = models.ManyToManyField(User, blank=True, related_name='acompañantes')
+    # como asigno la tarea al usuario que la crea? 
+
+    creador = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creador', default=1)
 
     """ enumeracion de status """
     class Status(models.TextChoices):
         TODO = 'TODO'
         DOING = 'DOING'
         DONE = 'DONE'
+        PAUSED = 'PAUSED'
     
-    status = models.CharField(max_length=5, choices=Status.choices, default=Status.TODO) 
+    status = models.CharField(max_length=6, choices=Status.choices, default=Status.TODO) 
     
     def __str__(self):
         return f"{self.title}"
@@ -78,6 +82,7 @@ class Ejercicio(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, blank=False, null=False)
     series = models.ManyToManyField('Serie', blank=True)
+    creador = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creadorEjercicio', default=1)
 
     def __str__(self):
         return f"{self.nombre}"
@@ -91,6 +96,7 @@ class Serie(models.Model):
     id = models.AutoField(primary_key=True)
     repeticiones = models.IntegerField(default=0)
     peso = models.DecimalField(max_digits=5, decimal_places=2)
+    creador = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creadorSerie', default=1)
     
     def __str__(self):
         return f"{self.repeticiones} reps X {self.peso} kgs."
@@ -99,6 +105,7 @@ class Asignatura(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, blank=False, null=False)
     creditos = models.IntegerField(default=0)
+    creador = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creadorAsignatura', default=1)
 
     def __str__(self):
         return f"{self.nombre}"
