@@ -1,12 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import LoginButton from './components/LoginButton.vue'
 /* import { Axios } from 'axios'; */
-import AxiosExample from './components/AxiosExample.vue';
+/* import AxiosExample from './components/AxiosExample.vue'; */
 </script>
 
 <template>
-  <header>
+  <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
@@ -17,11 +18,28 @@ import AxiosExample from './components/AxiosExample.vue';
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
+  </header> -->
+
+  <header>
+    <img class="logo" src="@/assets/man_person_14407.png" alt="Logo Lobby" width="125" height="125">
+    <div class="wrapper">
+      <HelloWorld msg="Bienvenido a lobby!" />
+
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/tasks">Tasks</RouterLink>
+      </nav>
+
+    </div>
+    
   </header>
 
-  <AxiosExample class="AxiosExampleComponent"/>
-
   <RouterView />
+  <div class="button-container"><LoginButton class="LoginButtonComponent"/></div>
+  
+  <!-- <AxiosExample class="AxiosExampleComponent"/> --> <!-- Ejemplo de uso de Axios -->
+
+  <!-- <RouterView /> -->
 </template>
 
 <style scoped>
@@ -85,5 +103,11 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+
+  .button-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 }
 </style>

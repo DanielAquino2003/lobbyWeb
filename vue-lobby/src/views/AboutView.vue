@@ -1,7 +1,7 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <WelcomeItem>
+    Lobbys main aim is to provide users a solid and simple tasks management system
+  </WelcomeItem>
 </template>
 
 <style>
