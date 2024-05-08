@@ -24,6 +24,7 @@
 
 <script>
 import axios from "axios";
+import { userSessionStore } from "@/stores/counter";
 
 export default {
 
@@ -33,6 +34,9 @@ export default {
       password: '',
       result: null // Define result en la sección data
     };
+  },
+  created(){
+    this.userSession = userSessionStore();
   },
   methods: {
     login() {
@@ -48,19 +52,26 @@ export default {
             password: password,
         };
 
-      axios.post("http://127.0.0.1:8000/api/mytokenlogin/", data)
+        axios.post("http://127.0.0.1:8000/api/mytokenlogin/", data)
         .then((response) => {
-          this.result = response.data;
-          console.log("Respuesta: ",response.data);
+            this.result = response.data;
+            const data = response.data;
+            console.log("Data: ",data);
+            const token = data.auth_token;
+            console.log("Token: ",token);
+            const user_id = data.user_id;
+            console.log("PlayerID: ",user_id);
+
+            this.userSession.setSession(token, user_id);
+            this.$router.push({ name: "home" });
         })
         .catch((error) => {
-          console.error('Error al realizar la solicitud POST:', error);
+            console.error('Error al realizar la solicitud POST:', error);
         });
     }
   }
 };
 </script>
-
 <style scoped>
 *,
 *:before,
