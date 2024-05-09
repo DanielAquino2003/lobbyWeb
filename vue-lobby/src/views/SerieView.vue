@@ -1,8 +1,8 @@
 <template>
     <div class="usersdiv">
-      <h1>Tasks</h1>
+      <h1>Series</h1>
       <ul>
-        <li v-for="user in users" :key="user.id">{{ user }}</li>
+        <li v-for="serie in series" :key="serie.id">{{ serie }}</li>
       </ul>
     </div>
   </template>
@@ -12,26 +12,26 @@
     export default {
         data() {
             return {
-            users: [],
+            series: [],
             };
         },
         methods: {
-        async getTasks() {
+        async getseries() {
             try {
-            const response = await fetch('http://127.0.0.1:8000/api/tasks/');
+            const response = await fetch('http://127.0.0.1:8000/api/series/');
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
             const data = await response.json();
             console.log(data);
-            this.users = data;
+            this.series = data;
             } catch (error) {
             console.error('Error fetching data:', error);
             }
         },
         },
         mounted() {
-        this.getTasks();
+        this.getseries();
         }
     };
   </script>

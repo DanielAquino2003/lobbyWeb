@@ -1,19 +1,20 @@
 from django.urls import path
-from .views import AsignaturaListView, AsignaturaDetailView, AsignaturaCreateView, SerieCreateView, SerieDetailView, SerieListView, TaskListView, TaskDetailView, TaskCreateView, UserListView, UserDetailView, UserCreateView, EjercicioListView, EjercicioDetailView, EjercicioCreateView
+from django.contrib import admin
+from django.urls import path, include
+from .api import TaskViewSet, TaskDeporteViewSet, TaskEstudioViewSet, SubjectViewSet, EjercicioViewSet, SerieViewSet
+
 urlpatterns = [
-    path('tasks/', TaskListView.as_view(), name='task-list'),
-    path('task/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),
-    path('task/create/', TaskCreateView.as_view(), name='task-create'),
-    path('users/', UserListView.as_view(), name='user-list'),
-    path('user/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
-    path('user/create/', UserCreateView.as_view(), name='user-create'),
-    path('ejercicios/', EjercicioListView.as_view(), name='ejercicio-list'),
-    path('ejercicio/<int:pk>/', EjercicioDetailView.as_view(), name='ejercicio-detail'),
-    path('ejercicio/create/', EjercicioCreateView.as_view(), name='ejercicio-create'),
-    path('series/', SerieListView.as_view(), name='serie-list'),
-    path('serie/<int:pk>/', SerieDetailView.as_view(), name='serie-detail'),
-    path('serie/create/', SerieCreateView.as_view(), name='serie-create'),
-    path('asignaturas/', AsignaturaListView.as_view(), name='asignatura-list'),
-    path('asignatura/<int:pk>/', AsignaturaDetailView.as_view(), name='asignatura-detail'),
-    path('asignatura/create/', AsignaturaCreateView.as_view(), name='asignatura-create'),
+    path('tasks/',TaskViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
+    path('tasks/<int:pk>/',TaskViewSet.as_view({'delete': 'destroy'})),
+    path('tasksDeporte/',TaskDeporteViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
+    path('tasksDeporte/<int:pk>/',TaskDeporteViewSet.as_view({'delete': 'destroy'})),
+    path('tasksEstudio/', TaskEstudioViewSet.as_view({'get':'list', 'put':'update', 'post':'create'})),
+    path('taskEstudio/<int:pk>/', TaskEstudioViewSet.as_view({'delete':'destroy'})),
+    path('asignaturas/', SubjectViewSet.as_view({'get':'list', 'put':'update', 'post':'create'})),
+    path('asignatura/<int:pk>/', SubjectViewSet.as_view({'delete':'destroy'})),
+    path('ejercicios/', EjercicioViewSet.as_view({'get':'list', 'put':'update', 'post':'create'})),
+    path('ejercicio/<int:pk>/', EjercicioViewSet.as_view({'delete':'destroy'})),
+    path('series/', SerieViewSet.as_view({'get':'list', 'put':'update', 'post':'create'})),
+    path('serie/<int:pk>/', SerieViewSet.as_view({'delete':'destroy'})),
+
 ]

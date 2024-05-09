@@ -114,13 +114,13 @@ class Asignatura(models.Model):
 class TaskDeporte(Task):
     deporte = models.CharField(max_length=100, blank=False, null=False)
     ejercicios = models.ManyToManyField(Ejercicio, blank=True)
-    tiempo = models.TimeField(max_length=8, blank=False, null=False)
+    tiempo = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
 
     def __str__(self):
         return f"{self.deporte} - {self.title}"
     
 class TaskEstudio(Task):
-    asignatura = models.ForeignKey('Asignatura', on_delete=models.CASCADE)
+    asignatura = models.ForeignKey('Asignatura', on_delete=models.CASCADE, null=True, blank=True)
 
     class tipoTarea(models.TextChoices):
         EXAMEN = 'EXAMEN'
@@ -132,4 +132,4 @@ class TaskEstudio(Task):
     tipo = models.CharField(max_length=20, choices=tipoTarea.choices, default=tipoTarea.OTRA)
 
     def __str__(self):
-        return f"{self.materia} - {self.tema}"
+        return f"{self.asignatura} - {self.tipo}"

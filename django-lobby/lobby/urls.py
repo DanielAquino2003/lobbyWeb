@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'api/', include('djoser.urls')),
     path(r'api/', include('djoser.urls.authtoken')),
+    path(r'api/', include('app_lobby.urls')),
     path(r'lobby/', include('app_lobby.urls')),
     path(r'api/mytokenlogin/', api.MyTokenCreateView.as_view()),
 ]

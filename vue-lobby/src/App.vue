@@ -27,7 +27,12 @@ import LoginButton from './components/LoginButton.vue'
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/Tasks">Tasks</RouterLink>
+        <RouterLink to="/TasksView">TasksView</RouterLink>
+        <RouterLink to="/TaskDeporteView">TaskDeporteView</RouterLink>
+        <RouterLink to="/TaskEstudioView">TaskEstudioView</RouterLink>
+        <RouterLink to="/SubjectView">SubjectView</RouterLink>
+        <RouterLink to="/EjercicioView">EjercicioView</RouterLink>
+        <RouterLink to="/SerieView">SerieView</RouterLink>
       </nav>
 
     </div>
@@ -35,6 +40,8 @@ import LoginButton from './components/LoginButton.vue'
   </header>
 
   <RouterView />
+  <!-- insertar boton de singup -->
+  <!-- se mostrar solo si el usuario no esta logeado -->
   <div class="button-container"><LoginButton class="LoginButtonComponent"/></div>
   
   <!-- <AxiosExample class="AxiosExampleComponent"/> --> <!-- Ejemplo de uso de Axios -->

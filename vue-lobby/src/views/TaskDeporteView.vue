@@ -1,8 +1,8 @@
 <template>
     <div class="usersdiv">
-      <h1>Tasks</h1>
+      <h1>TasksDeporte</h1>
       <ul>
-        <li v-for="user in users" :key="user.id">{{ user }}</li>
+        <li v-for="task in tasks" :key="task.id">{{ task }}</li>
       </ul>
     </div>
   </template>
@@ -12,19 +12,19 @@
     export default {
         data() {
             return {
-            users: [],
+            tasks: [],
             };
         },
         methods: {
         async getTasks() {
             try {
-            const response = await fetch('http://127.0.0.1:8000/api/tasks/');
+            const response = await fetch('http://127.0.0.1:8000/api/tasksDeporte/');
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
             const data = await response.json();
             console.log(data);
-            this.users = data;
+            this.tasks = data;
             } catch (error) {
             console.error('Error fetching data:', error);
             }

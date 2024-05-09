@@ -63,7 +63,7 @@ export default {
             console.log("PlayerID: ",user_id);
 
             this.userSession.setSession(token, user_id);
-            this.$router.push({ name: "home" });
+            /* this.$router.push({ name: "home" }); */
         })
         .catch((error) => {
             console.error('Error al realizar la solicitud POST:', error);
