@@ -8,6 +8,7 @@
   </template>
   
   <script>
+  import { userSessionStore  } from '@/stores/counter';
 
     export default {
         data() {
@@ -18,7 +19,12 @@
         methods: {
         async getTasks() {
             try {
-            const response = await fetch('http://127.0.0.1:8000/api/tasks/');
+            const token = userSessionStore().token
+            const response = await fetch('http://127.0.0.1:8000/api/tasks/',{
+              headers: {
+                'Authorization': `token ${token}`
+              }
+            });
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }

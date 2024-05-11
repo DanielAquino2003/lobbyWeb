@@ -5,7 +5,10 @@
             <div class="shape"></div>
         </div>
         <form @submit.prevent="login">
-            <h3>Login Here</h3>
+            <h3>Sing Up Here</h3>
+
+            <label for="email">Email</label>
+            <input type="text" placeholder="Email" id="email" ref="emailInput" required>
 
             <label for="username">Username</label>
             <input type="text" placeholder="Username" id="username" ref="usernameInput" required>
@@ -13,7 +16,7 @@
             <label for="password">Password</label>
             <input type="password" placeholder="Password" id="password" ref="passwordInput" required>
 
-            <button type="submit">Log In</button>
+            <button type="submit">Sing Up</button>
         </form>
     </div>
 </template>
@@ -26,6 +29,7 @@ export default {
 
   data() {
     return {
+      emial: '',
       username: '',
       password: '',
       result: null // Define result en la sección data
@@ -39,28 +43,25 @@ export default {
       // Aquí puedes agregar la lógica para enviar la información de inicio de sesión al servidor
       const username = this.$refs.usernameInput.value;
       const password = this.$refs.passwordInput.value;
+      const email = this.$refs.emailInput.value;
 
       console.log('Username:', username);
       console.log('Password:', password);
+      console.log('Email:', email);
 
         const data = {
             username: username,
             password: password,
+            email: email,
         };
 
-        axios.post("http://127.0.0.1:8000/api/mytokenlogin/", data)
+        axios.post("http://127.0.0.1:8000/api/users/", data)
         .then((response) => {
             this.result = response.data;
             const data = response.data;
             console.log("Data: ",data);
-            const token = data.auth_token;
-            console.log("Token: ",token);
-            const user_id = data.user_id;
-            console.log("PlayerID: ",user_id);
-
-            this.userSession.setSession(token, user_id);
-            this.userSession.setAuthenticated();
-            this.$router.push({ name: "UserHome" });
+            this.userSession.setRegistered()
+            this.$router.push({ name: "Login" });
         })
         .catch((error) => {
             console.error('Error al realizar la solicitud POST:', error);
@@ -69,6 +70,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 *,
 *:before,
@@ -110,7 +112,7 @@ body {
 }
 
 form {
-    height: 470px;
+    height: 600px;
     width: 400px;
     background-color: rgba(255, 255, 255, 0.13);
     position: absolute;

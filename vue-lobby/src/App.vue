@@ -1,32 +1,24 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import LoginButton from './components/LoginButton.vue'
-/* import { Axios } from 'axios'; */
-/* import AxiosExample from './components/AxiosExample.vue'; */
+import SingUpButton from './components/SingUpButton.vue'
+import { userSessionStore } from "@/stores/counter";
+
+const isRegistered = userSessionStore().isRegistered;
+console.log(isRegistered);
+const isAuthenticated = userSessionStore().isAuthenticated;
+console.log(isAuthenticated);
+
 </script>
 
 <template>
-  <!-- <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header> -->
-
-  <header>
-    <img class="logo" src="@/assets/man_person_14407.png" alt="Logo Lobby" width="125" height="125">
+  <header v-if="useRoute().path && useRoute().path === '/'">
+    <img class="logo" src="@/assets/correct.png" alt="Logo Lobby" width="125" height="125">
     <div class="wrapper">
       <HelloWorld msg="Welcome to Lobby!" />
-
       <nav>
-        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/">Begining</RouterLink>
         <RouterLink to="/TasksView">TasksView</RouterLink>
         <RouterLink to="/TaskDeporteView">TaskDeporteView</RouterLink>
         <RouterLink to="/TaskEstudioView">TaskEstudioView</RouterLink>
@@ -34,19 +26,12 @@ import LoginButton from './components/LoginButton.vue'
         <RouterLink to="/EjercicioView">EjercicioView</RouterLink>
         <RouterLink to="/SerieView">SerieView</RouterLink>
       </nav>
-
     </div>
-    
   </header>
-
   <RouterView />
-  <!-- insertar boton de singup -->
-  <!-- se mostrar solo si el usuario no esta logeado -->
-  <div class="button-container"><LoginButton class="LoginButtonComponent"/></div>
-  
-  <!-- <AxiosExample class="AxiosExampleComponent"/> --> <!-- Ejemplo de uso de Axios -->
+  <div v-if="!userSessionStore().isAuthenticated && (useRoute().path && useRoute().path === '/')" class="button-container"><LoginButton class="LoginButtonComponent"/></div>
+  <div v-if="!userSessionStore().isAuthenticated && (!userSessionStore().isRegistered && !userSessionStore().isAuthenticated) && (useRoute().path && useRoute().path === '/')" class="button-container2"><SingUpButton class="SingUpButtonComponent"/></div>
 
-  <!-- <RouterView /> -->
 </template>
 
 <style scoped>
@@ -85,6 +70,7 @@ nav a:first-of-type {
   border: 0;
 }
 
+
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -112,9 +98,22 @@ nav a:first-of-type {
   }
 
   .button-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .button-container2 {
+    position: absolute;
+    top: 10px;
+    right: 150px
+  }
+
+  @media (max-width: 1023px) {
+
+    
+
+  }
+
 }
 </style>

@@ -3,11 +3,12 @@ from djoser.conf import settings
 from rest_framework import mixins, viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from django.db.models import Q
 from django.shortcuts import get_object_or_404
-import random
-from .models import Task, TaskDeporte, TaskEstudio, Serie, Ejercicio, Asignatura, User
-from .serializers import TaskSerializer, TaskDeporteSerializer, TaskEstudioSerializer, SerieSerializer, EjercicioSerializer, AsignaturaSerializer, UserSerializer
+from .models import Task, TaskDeporte, TaskEstudio, Serie, Ejercicio, Asignatura
+from .serializers import TaskSerializer, TaskDeporteSerializer, TaskEstudioSerializer, SerieSerializer, EjercicioSerializer, AsignaturaSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
 
 class MyTokenCreateView(TokenCreateView):
     def _action(self, serializer):
@@ -19,12 +20,13 @@ class MyTokenCreateView(TokenCreateView):
     
 class TaskViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = TaskSerializer
-    queryset = Task.objects.all()
+
+    def get_queryset(self):
+        return Task.objects.filter(creador=self.request.user)
 
     def list(self, request):
         """ queryset = self.queryset.filter(creador=request.user) """
-        tasks = Task.objects.all()
-        serializer = self.serializer_class(tasks, many=True)
+        serializer = self.serializer_class(self.get_queryset(), many=True)
         return Response(serializer.data)
     
     def create(self, request):
@@ -34,14 +36,14 @@ class TaskViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.Upda
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def destroy(self, request, pk=None):
-        task = get_object_or_404(self.queryset, pk=pk)
+        task = get_object_or_404(self.get_queryset(), pk=pk)
         if task.creador != request.user:
             raise ValidationError("You can't delete this task")
         task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     def update(self, request, pk=None):
-        task = get_object_or_404(self.queryset, pk=pk)
+        task = get_object_or_404(self.get_queryset(), pk=pk)
         if task.creador != request.user:
             raise ValidationError("You can't update this task")
         serializer = self.serializer_class(task, data=request.data)
@@ -51,12 +53,12 @@ class TaskViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.Upda
     
 class TaskDeporteViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = TaskDeporteSerializer
-    queryset = TaskDeporte.objects.all()
+    def get_queryset(self):
+        return TaskDeporte.objects.filter(creador=self.request.user)
 
     def list(self, request):
         """ queryset = self.queryset.filter(creador=request.user) """
-        tasks = TaskDeporte.objects.all()
-        serializer = self.serializer_class(tasks, many=True)
+        serializer = self.serializer_class(self.get_queryset(), many=True)
         return Response(serializer.data)
     
     def create(self, request):
@@ -66,14 +68,14 @@ class TaskDeporteViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixi
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def destroy(self, request, pk=None):
-        task = get_object_or_404(self.queryset, pk=pk)
+        task = get_object_or_404(self.get_queryset(), pk=pk)
         if task.creador != request.user:
             raise ValidationError("You can't delete this task")
         task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     def update(self, request, pk=None):
-        task = get_object_or_404(self.queryset, pk=pk)
+        task = get_object_or_404(self.get_queryset(), pk=pk)
         if task.creador != request.user:
             raise ValidationError("You can't update this task")
         serializer = self.serializer_class(task, data=request.data)
@@ -84,10 +86,11 @@ class TaskDeporteViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixi
 class TaskEstudioViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
 
     serializer_class = TaskEstudioSerializer
-    queryset = TaskEstudio.objects.all()
+    def get_queryset(self):
+        return TaskEstudio.objects.filter(creador=self.request.user)
 
     def list(self, request):
-        serializer = self.serializer_class(self.queryset, many=True)
+        serializer = self.serializer_class(self.get_queryset(), many=True)
         return Response(serializer.data)
 
     def create(self, request):
@@ -97,14 +100,14 @@ class TaskEstudioViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixi
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def destroy(self, request, pk=None):
-        task = get_object_or_404(self.queryset, pk=pk)
+        task = get_object_or_404(self.get_queryset(), pk=pk)
         if task.creador != request.user:
             raise ValidationError("You can't delete this task")
         task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     def update(self, request, pk=None):
-        task = get_object_or_404(self.queryset, pk=pk)
+        task = get_object_or_404(self.get_queryset(), pk=pk)
         if task.creador != request.user:
             raise ValidationError("You can't update this task")
         serializer = self.serializer_class(task, data=request.data)
@@ -115,10 +118,11 @@ class TaskEstudioViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixi
 class SubjectViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
 
     serializer_class = AsignaturaSerializer
-    queryset = Asignatura.objects.all()
+    def get_queryset(self):
+        return Asignatura.objects.filter(creador=self.request.user)
 
     def list(self, request):
-        serializer = self.serializer_class(self.queryset, many=True)
+        serializer = self.serializer_class(self.get_queryset(), many=True)
         return Response(serializer.data)
 
     def create(self, request):
@@ -128,14 +132,14 @@ class SubjectViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.L
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def destroy(self, request, pk=None):
-        subject = get_object_or_404(self.queryset, pk=pk)
+        subject = get_object_or_404(self.get_queryset(), pk=pk)
         if subject.creador != request.user:
             raise ValidationError("You can't delete this subject")
         subject.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     def update(self, request, pk=None):
-        subject = get_object_or_404(self.queryset, pk=pk)
+        subject = get_object_or_404(self.get_queryset(), pk=pk)
         if subject.creador != request.user:
             raise ValidationError("You can't update this subject")
         serializer = self.serializer_class(subject, data=request.data)
@@ -146,10 +150,11 @@ class SubjectViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.L
 class EjercicioViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
 
     serializer_class = EjercicioSerializer
-    queryset = Ejercicio.objects.all()
+    def get_queryset(self):
+        return Ejercicio.objects.filter(creador=self.request.user)
 
     def list(self, request):
-        serializer = self.serializer_class(self.queryset, many=True)
+        serializer = self.serializer_class(self.get_queryset(), many=True)
         return Response(serializer.data)
 
     def create(self, request):
@@ -159,14 +164,14 @@ class EjercicioViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def destroy(self, request, pk=None):
-        ejercicio = get_object_or_404(self.queryset, pk=pk)
+        ejercicio = get_object_or_404(self.get_queryset(), pk=pk)
         if ejercicio.creador != request.user:
             raise ValidationError("You can't delete this subject")
         ejercicio.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     def update(self, request, pk=None):
-        ejercicio = get_object_or_404(self.queryset, pk=pk)
+        ejercicio = get_object_or_404(self.get_queryset(), pk=pk)
         if ejercicio.creador != request.user:
             raise ValidationError("You can't update this subject")
         serializer = self.serializer_class(ejercicio, data=request.data)
@@ -178,10 +183,11 @@ class EjercicioViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins
 class SerieViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
 
     serializer_class = SerieSerializer
-    queryset = Serie.objects.all()
+    def get_queryset(self):
+        return Serie.objects.filter(creador=self.request.user)
 
     def list(self, request):
-        serializer = self.serializer_class(self.queryset, many=True)
+        serializer = self.serializer_class(self.get_queryset(), many=True)
         return Response(serializer.data)
 
     def create(self, request):
@@ -191,14 +197,14 @@ class SerieViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.Lis
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     def destroy(self, request, pk=None):
-        serie = get_object_or_404(self.queryset, pk=pk)
+        serie = get_object_or_404(self.get_queryset(), pk=pk)
         if serie.creador != request.user:
             raise ValidationError("You can't delete this subject")
         serie.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     def update(self, request, pk=None):
-        serie = get_object_or_404(self.queryset, pk=pk)
+        serie = get_object_or_404(self.get_queryset(), pk=pk)
         if serie.creador != request.user:
             raise ValidationError("You can't update this subject")
         serializer = self.serializer_class(serie, data=request.data)

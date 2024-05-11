@@ -16,6 +16,7 @@
     "axios": "^1.6.8",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
+    "vue-responsive-menu": "^0.2.2",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
@@ -28,6 +29,7 @@
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-vue": "^9.23.0",
     "jsdom": "^24.0.0",
+    "sass": "^1.77.0",
     "start-server-and-test": "^2.0.3",
     "vite": "^5.2.8",
     "vitest": "^1.4.0"

@@ -16,6 +16,8 @@ export const userSessionStore = defineStore({
   state: () => ({
     token: "",
     user_id: "", // Changed to 'user_id' to match the case used in the actions
+    isRegistered:"",
+    isAuthenticated:""
   }),
   actions: {
     setSession(token, user_id) { // Use regular function here
@@ -27,6 +29,12 @@ export const userSessionStore = defineStore({
       this.user_id = "";
       localStorage.removeItem('token');
       localStorage.removeItem('user_id');
+    },
+    setRegistered(){
+      this.isRegistered = true;
+    },
+    setAuthenticated(){
+      this.isAuthenticated = true
     }
   },
 });

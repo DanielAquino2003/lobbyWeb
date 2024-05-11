@@ -20,7 +20,8 @@ const router = createRouter({
     {path:'/SubjectView', name:'SubjectView', component: () => import('../views/SubjectView.vue')},
     {path:'/EjercicioView', name:'EjercicioView', component: () => import('../views/EjercicioView.vue')},
     {path:'/SerieView', name:'SeriesView', component: () => import('../views/SerieView.vue')},
-
+    {path:'/SingUp', name:'SingUp', component: () => import('../views/SingUpView.vue')},
+    {path:'/Home', name:'UserHome', component: () => import('../views/UserHome.vue')}
   ]
 })
 
